@@ -77,8 +77,9 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
+    'locale' => 'zh-CN',
 
-    'locale' => 'en',
+    // 'locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -177,6 +178,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Debugbar
+         */
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*

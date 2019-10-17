@@ -2,14 +2,15 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>首页二</title>
+    <title>CMS - 运营管理平台</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="{{URL::asset('lib/layui-v2.5.4/css/layui.css')}}" media="all">
-    <link rel="stylesheet" href="{{URL::asset('lib/font-awesome-4.7.0/css/font-awesome.min.css')}}" media="all">
-    <link rel="stylesheet" href="{{URL::asset('css/public.css')}}" media="all">
-    <link rel="icon" href="images/favicon.ico">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="{{URL::asset('images/favicon.ico')}}">
     <link rel="stylesheet" href="{{URL::asset('lib/layui-v2.5.4/css/layui.css')}}" media="all">
     <link rel="stylesheet" href="{{URL::asset('css/layuimini.css')}}" media="all">
     <link rel="stylesheet" href="{{URL::asset('lib/font-awesome-4.7.0/css/font-awesome.min.css')}}" media="all">
@@ -20,7 +21,7 @@
     <style id="layuimini-bg-color">
     </style>
 </head>
-<body>
+<body class="layui-layout-body layuimini-all">
 <div class="layui-layout layui-layout-admin">
 
     <div class="layui-header header">
@@ -106,7 +107,7 @@
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功', function () {
-                window.location = '/page/login-1.html';
+                window.location = '/';
             });
         });
     });

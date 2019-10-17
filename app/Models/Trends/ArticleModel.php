@@ -1,24 +1,23 @@
 <?php
 
-namespace App\Models\User;
+namespace app\Models\Trends;
 
 use App\Models\BaseModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-
-class UserModel extends BaseModel
+class ArticleModel extends BaseModel
 {
-    protected $table ='user';
+    protected $table ='article';
 
-    public function getUserList($where=false,$order=false,$field="*",$limit=false)
+    public function getList($where=false,$order=false,$field="*",$limit=false)
     {
         $db = DB::table($this->table);
         $data = $this->getDataList($db,$where,$order,$field,$limit);
         return $data;
     }
 
-    public function getUserListCount($where=false)
+    public function getListCount($where=false)
     {
         $db = DB::table($this->table);
         $data = $this->getDataCount($db,$where);
@@ -28,8 +27,8 @@ class UserModel extends BaseModel
     public function getListWhere($param)
     {
         $where = '';
-        if(isset($param['status']) && in_array($param['status'],[0,1])){
-            $where .= 'status ="' . intval($param['status']). '" and ';
+        if(isset($param['state']) && in_array($param['state'],[0,1])){
+            $where .= 'state ="' . intval($param['state']). '" and ';
         }
         if(strlen($where) > 0){
             $where = substr($where,0,strlen($where)-4);

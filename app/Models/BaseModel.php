@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class BaseModel extends Model
@@ -31,9 +30,11 @@ class BaseModel extends Model
             $db->whereRaw($where);
         }
         if(!empty($limit) && isset($limit['page']) && isset($limit['length'])){
+            Log::info('getDataList:limit:['.$limit['page'].','.$limit['length'].']');
             $num = $limit['length'];
-            $page = intval($limit['page']) == 0 ? 0 : intval($limit['page'])/10;
+            $page = intval($limit['page']) == 0 ? 0 : intval($limit['page']);
             $start = $page * $num;
+            Log::info('start:'.$start."(".$page.'):num:'.$num);
             $db->skip($start)->take($num);
         }
         if($order && isset($order['order_by_filed']) && isset($order['order_by_type'])){
@@ -45,6 +46,7 @@ class BaseModel extends Model
                 }
             }
         }
+
         if(!empty($field)){
             $db->select($field);
         }
@@ -55,4 +57,39 @@ class BaseModel extends Model
         return $data->toArray();
     }
 
+    /*
+	 * Content : 查询单条记录
+	 */
+    public function findData($db,$where,$order,$field)
+    {
+        if($where){
+            $db->whereRaw($where);
+        }
+        if($order && isset($order['field']) && isset($order['type'])){
+            $db->orderBy($order['field'],$order['type']);
+        }
+        if($field){
+            $db->select($field);
+        }
+        $data = $db->first();
+
+        return $data;
+    }
+    /*
+     * Desc : 查询总条数
+     * Param   : [
+     *				'bd' => $db_connection,
+     *				'where' => where_string,
+     *			  ]
+     * Return  : []
+     */
+    public function getDataCount($db,$where)
+    {
+        if($where){
+            $db->whereRaw($where);
+        }
+        $data = $db->count();
+
+        return $data;
+    }
 }

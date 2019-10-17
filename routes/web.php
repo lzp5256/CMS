@@ -11,31 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('Admin.user.login');
-});
+Route::get('/','LoginController@index')->name('login');
+
+Route::get('/home/index','HomeController@index')->name('home.index');
+Route::get('/home/welcome','HomeController@welcome')->name('home.welcome');
+
+//Route::get('/user/show','UserController@show')->name('user.show');
+Route::any('/user/list','UserController@lists')->name('user.list');
+Route::post('/user/create','UserController@create')->name('user.create');
+Route::post('/user/edit/{id}','UserController@edit')->name('user.edit');
+
+Route::any('/trends/list','TrendsController@trendsList');
 
 
-//Route::get('/login','Admin\UserController@login');
-Route::get('home/index',function(){
-    return view('Admin.home.index');
-});
-//Route::post('user/login','Admin\User');
-
-//Route::group('user',function (){
-//    Route::post('list','Admin\UserController@UserList');
-//});
-
-
-
-Route::post('user/login','Admin\UserController@login');
-
-// 用户管理相关路由
-Route::prefix('user')->group(function () {
-    Route::any('UserList','Admin\UserController@UserList');
-});
-
-// 内容管理相关路由
-Route::prefix('article')->group(function () {
-    Route::any('ArticleList','Admin\ArticleCOntroller@getArticleList');
-});

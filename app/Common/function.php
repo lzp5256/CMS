@@ -11,7 +11,12 @@ if(!function_exists('test'))
 
 if(!function_exists('R'))
 {
-    function R($code,$data = []){
-        return json_encode(['code'=>$code,'msg'=>MG($code),'data'=>$data],JSON_UNESCAPED_UNICODE);
+    function R($code,$data = [],$count = 0){
+        return json_encode([
+            'code'=>$code,
+            'msg'=>MG($code),
+            'data'=>$data,
+            'count'=>$count
+        ],JSON_UNESCAPED_UNICODE);
     }
 }
