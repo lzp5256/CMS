@@ -102,7 +102,7 @@
             element = layui.element,
             layer = layui.layer;
 
-        layuimini.init('/api/init.json');
+        layuimini.init('/menu/index');
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功', function () {

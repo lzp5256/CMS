@@ -45,13 +45,15 @@ layui.define(["element", "jquery"], function (exports) {
             layuimini.initBgColor();
             layuimini.initDevice();
             $.getJSON(url, function (data, status) {
+                console.log(data);
+
                 if (data == null) {
                     layuimini.msg_error('暂无菜单信息');
                 } else {
                     layuimini.initHome(data.homeInfo);
                     layuimini.initLogo(data.logoInfo);
                     layuimini.initClear(data.clearInfo);
-                    layuimini.initMenu(data.menuInfo);
+                    layuimini.initMenu(data.data.menuInfo);
                     layuimini.initTab();
                 }
             }).fail(function () {
@@ -76,10 +78,14 @@ layui.define(["element", "jquery"], function (exports) {
          * @param data
          */
         this.initHome = function (data) {
-            sessionStorage.setItem('layuiminiHomeHref', data.href);
-            $('#layuiminiHomeTabId').html('<i class="' + data.icon + '"></i> <span>' + data.title + '</span>');
-            $('#layuiminiHomeTabId').attr('lay-id', data.href);
-            $('#layuiminiHomeTabIframe').html('<iframe width="100%" height="100%" frameborder="0"  src="' + data.href + '"></iframe>');
+            // sessionStorage.setItem('layuiminiHomeHref', data.href);
+            // $('#layuiminiHomeTabId').html('<i class="' + data.icon + '"></i> <span>' + data.title + '</span>');
+            // $('#layuiminiHomeTabId').attr('lay-id', data.href);
+            // $('#layuiminiHomeTabIframe').html('<iframe width="100%" height="100%" frameborder="0"  src="' + data.href + '"></iframe>');
+            sessionStorage.setItem('layuiminiHomeHref', '/home/welcome');
+            $('#layuiminiHomeTabId').html('<i class="fa fa-home"></i> <span>首页</span>');
+            $('#layuiminiHomeTabId').attr('lay-id', '/home/welcome');
+            $('#layuiminiHomeTabIframe').html('<iframe width="100%" height="100%" frameborder="0"  src="/home/welcome"></iframe>');
         };
 
         /**
@@ -87,9 +93,13 @@ layui.define(["element", "jquery"], function (exports) {
          * @param data
          */
         this.initLogo = function (data) {
-            var html = '<a href="' + data.href + '">\n' +
-                '<img src="' + data.image + '" alt="logo">\n' +
-                '<h1>' + data.title + '</h1>\n' +
+            // var html = '<a href="' + data.href + '">\n' +
+            //     '<img src="' + data.image + '" alt="logo">\n' +
+            //     '<h1>' + data.title + '</h1>\n' +
+            //     '</a>';
+            var html = '<a href="/">\n' +
+                '<img src="/images/logo.png" alt="logo">\n' +
+                '<h1>CMS管理平台</h1>\n' +
                 '</a>';
             $('.layui-layout-admin .layui-logo').html(html);
         };
@@ -99,7 +109,7 @@ layui.define(["element", "jquery"], function (exports) {
          * @param data
          */
         this.initClear = function (data) {
-            $('.layuimini-clear').attr('data-href', data.clearUrl);
+            $('.layuimini-clear').attr('data-href', 'api/clear.json'); //data.clearUrl
         };
 
         /**
@@ -127,6 +137,7 @@ layui.define(["element", "jquery"], function (exports) {
          * @param data
          */
         this.initMenu = function (data) {
+            console.log('aaa:',data);
             var headerMenuHtml = '',
                 headerMobileMenuHtml = '',
                 leftMenuHtml = '',

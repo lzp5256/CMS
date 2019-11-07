@@ -54,7 +54,8 @@ class BaseModel extends Model
         if(empty($data)){
             return [];
         }
-        return $data->toArray();
+        // 转换object(stdClass)数组为正常数组
+        return json_decode(json_encode($data,true),true);
     }
 
     /*

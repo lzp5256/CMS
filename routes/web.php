@@ -24,3 +24,9 @@ Route::post('/user/edit/{id}','UserController@edit')->name('user.edit');
 Route::any('/trends/list','TrendsController@trendsList');
 
 
+Route::get('/menu/index','MenuController@index')->name('menu.index');
+Route::any('/menu/list','MenuController@lists')->name('menu.list');
+Route::any('/menu/create','MenuController@create')->name('menu.create');
+
+
+Route::any('/sp/list','SpController@lists')->name('sp.list');
