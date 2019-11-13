@@ -28,7 +28,8 @@ if(!function_exists('R'))
  */
 if(!function_exists('generateTree'))
 {
-    function generateTree($items){
+    function generateTree($items)
+    {
         $type_arr = [
             '0' => 'currency',
             '1' => 'component',
@@ -50,3 +51,31 @@ if(!function_exists('generateTree'))
         return $menu;
     }
 }
+
+if(!function_exists('jsonDecode'))
+{
+    function jsonDecode($data)
+    {
+        return json_decode($data,true);
+    }
+}
+
+if(!function_exists('http_request'))
+{
+    function http_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, TRUE);
+            curl_setopt($curl, CURLOPT_POSTFIELDS,$data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
+}
+

@@ -7,18 +7,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 
-class UserModel extends BaseModel
+class UserExtensionModel extends BaseModel
 {
-    protected $table ='m_user';
+    protected $table ='m_user_extension';
 
-    public function getUserList($where=false,$order=false,$field="*",$limit=false)
+    public function getList($where=false,$order=false,$field="*",$limit=false)
     {
         $db = DB::table($this->table);
         $data = $this->getDataList($db,$where,$order,$field,$limit);
         return $data;
     }
 
-    public function getUserListCount($where=false)
+    public function getListCount($where=false)
     {
         $db = DB::table($this->table);
         $data = $this->getDataCount($db,$where);
@@ -85,7 +85,7 @@ class UserModel extends BaseModel
      *				'field' => 查询字段部分sql 例如: id,name,pwd 默认为*
      *				]
      */
-    protected function getOrderListFiled($param)
+    protected function getListFiled($param)
     {
         $field = '*';
         //field

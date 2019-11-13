@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Models\User;
+namespace App\Models\Region;
 
 use App\Models\BaseModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 
-class UserModel extends BaseModel
+class RegionModel extends BaseModel
 {
-    protected $table ='m_user';
+    protected $table ='m_region';
 
-    public function getUserList($where=false,$order=false,$field="*",$limit=false)
+    public function getList($where=false,$order=false,$field="*",$limit=false)
     {
         $db = DB::table($this->table);
         $data = $this->getDataList($db,$where,$order,$field,$limit);
         return $data;
     }
 
-    public function getUserListCount($where=false)
+    public function getListCount($where=false)
     {
         $db = DB::table($this->table);
         $data = $this->getDataCount($db,$where);
@@ -30,6 +30,12 @@ class UserModel extends BaseModel
         $where = '';
         if(isset($param['status']) && in_array($param['status'],[0,1])){
             $where .= 'status ="' . intval($param['status']). '" and ';
+        }
+        if(isset($param['region_name']) && !empty($param['region_name'])){
+            $where .= "rg_name like '%".trim($param['region_name'])."%' and ";
+        }
+        if(isset($param[''])){
+
         }
         if(strlen($where) > 0){
             $where = substr($where,0,strlen($where)-4);
@@ -93,6 +99,16 @@ class UserModel extends BaseModel
             $field = trim($param['field_str']);
         }
         return $field;
+    }
+
+    /**
+     * 查询单条记录
+     */
+    public function getOne($where=false,$order=false,$field="*")
+    {
+        $db = DB::table($this->table);
+        $data = $this->findData($db,$where,$order,$field);
+        return $data;
     }
 
     /**

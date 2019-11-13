@@ -126,6 +126,12 @@ return [
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
+    'wechat_appid' => env('WECHAT_APPID'),
+
+    'wechat_secret' => env('WECHAT_SECRET'),
+
+    'wechat_grant_type' => env('WECHAT_GRANT_TYPE'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
