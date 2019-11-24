@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Models\System;
+namespace App\Models\Goods;
 
 
 use App\Models\BaseModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class SystemMenuModel extends BaseModel
+class GoodsModel extends BaseModel
 {
-    protected $table = 'm_system_menu';
+    protected $table = 'm_goods';
 
     public function has($filed = '', $val_all = '100')
     {
@@ -17,6 +17,10 @@ class SystemMenuModel extends BaseModel
 
         if ($filed == 'status') {
             $ops = ['1' => '有效', '0' => '无效'];
+        }
+
+        if ($filed == 'goods_redeem') {
+            $ops = ['1' => '开启', '0' => '关闭'];
         }
 
         if ($val_all == '100') {
@@ -56,9 +60,6 @@ class SystemMenuModel extends BaseModel
         }
         if (isset($param['parent']) && !empty($param['status'])) {
             $where .= 'parent ="' . intval($param['parent']) . '" and ';
-        }
-        if (isset($param['id']) && !empty($param['id'])) {
-            $where .= 'id = "' . intval($param['id']) . '" and ';
         }
         if (strlen($where) > 0) {
             $where = substr($where, 0, strlen($where) - 4);
@@ -100,16 +101,6 @@ class SystemMenuModel extends BaseModel
         return $res;
     }
 
-    /**
-     * 删除记录
-     */
-    public function del($where,$data)
-    {
-        $db = DB::table($this->table);
-        $res = $db->where('id','=',$where)->update($data);
-        return $res;
-    }
-
     /*
      * @Content : 获取order_by
      * @Param   : $param
@@ -140,7 +131,7 @@ class SystemMenuModel extends BaseModel
      *				'field' => 查询字段部分sql 例如: id,name,pwd 默认为*
      *				]
      */
-    protected function getOrderListFiled($param)
+    protected function getListFiled($param)
     {
         $field = '*';
         //field
@@ -149,8 +140,6 @@ class SystemMenuModel extends BaseModel
         }
         return $field;
     }
-
-
 
 
 }

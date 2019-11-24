@@ -132,6 +132,8 @@ return [
 
     'wechat_grant_type' => env('WECHAT_GRANT_TYPE'),
 
+    'host_url' => env('HOST'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -170,6 +172,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        itbdw\QiniuStorage\QiniuFilesystemServiceProvider::class,
 
         /*
          * Package Service Providers...

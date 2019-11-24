@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>CMS后台管理系统</title>
+    <title>CMS后台管理系统 - 菜单列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -24,7 +24,7 @@
                 <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
             </div>
 
-            <table id="menu_list" lay-filter="menu_list"></table>
+            <table id="goods_type_list" lay-filter="goods_type_list"></table>
             <script type="text/html" id="imgTpl">
                 <img style="display: inline-block; width: 50%; height: 100%;" src="">
             </script>
@@ -46,18 +46,18 @@
         var $ = layui.$,form = layui.form,table = layui.table;
 
         table.render({
-            elem: '#menu_list',
-            url: '/menu/list',
+            elem: '#goods_type_list',
+            url: '/goods/type_list',
             method:'post',
             where: {_token:'{{csrf_token()}}'},
             cols: [[
                 {type: "checkbox", width: 50, fixed: "left"},
                 {field: 'id', title: 'ID'},
-                {field: 'title', title: '菜单标题'},
-                {field: 'icon',  title: '菜单Icon'},
-                {field: 'target',  title: '打开方式'},
-                {field: 'href',  title: '跳转路由'},
-                {field: 'status_str', title: '状态'},
+                {field: 'type_name', title: '分类名称'},
+                {field: 'type_code', title: '分类编码'},
+                {field: 'type_describe',  title: '分类描述'},
+                {field: 'parent',  title: '上级ID'},
+                {field: 'status', title: '状态'},
                 {field: 'create_time',  title: '创建时间'},
                 {field: 'update_time',  title: '更新时间'},
             ]],
@@ -75,8 +75,6 @@
                 if(checkData.length === 0){
                     return layer.msg('请选择数据');
                 }
-                console.log(checkData.length);
-                console.log(checkData);
 
                 layer.prompt({
                     formType: 1
@@ -109,25 +107,10 @@
             ,add: function(){
                 layer.open({
                     type: 2
-                    ,title: '添加菜单'
-                    ,content: '/menu/create'
+                    ,title: '添加商品分类'
+                    ,content: '/goods/type_create'
                     ,maxmin: true
-                    ,area: ['550px', '500px']
-                    // ,btn: ['确定', '取消']
-                    // ,yes: function(index, layero){
-                    //     var iframeWindow = window['layui-layer-iframe'+ index]
-                    //         ,submitID = 'menu_list'
-                    //         ,submit = layero.find('iframe').contents().find('#'+ submitID);
-                    //
-                    //     //监听提交
-                    //     iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-                    //         console.log('menu_list_add_data:' + data)
-                    //         var field = data.field; //获取提交的字段
-                    //         table.reload('menu_list'); //数据刷新
-                    //         layer.close(index); //关闭弹层
-                    //     });
-                    //     submit.trigger('click');
-                    // }
+                    ,area: ['500px', '480px']
                 });
             }
         };

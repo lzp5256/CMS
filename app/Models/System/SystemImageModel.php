@@ -7,9 +7,9 @@ use App\Models\BaseModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class SystemMenuModel extends BaseModel
+class SystemImageModel extends BaseModel
 {
-    protected $table = 'm_system_menu';
+    protected $table = 'm_system_image';
 
     public function has($filed = '', $val_all = '100')
     {
@@ -59,6 +59,12 @@ class SystemMenuModel extends BaseModel
         }
         if (isset($param['id']) && !empty($param['id'])) {
             $where .= 'id = "' . intval($param['id']) . '" and ';
+        }
+        if (isset($param['id_arr']) && !empty($param['id_arr']) ) {
+            $where .= 'goods_id IN ('.$param['id_arr'].') and ';
+        }
+        if (isset($param['type_arr']) && !empty($param['type_arr'])) {
+            $where .= 'type IN ('.$param['type_arr'].') and ';
         }
         if (strlen($where) > 0) {
             $where = substr($where, 0, strlen($where) - 4);

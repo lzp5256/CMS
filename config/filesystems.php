@@ -65,4 +65,11 @@ return [
 
     ],
 
+    'qiniu' => [
+        'driver'    => 'qiniu',
+        'domain'    => 'img.muyaocn.com',  //你的七牛域名
+        'access_key'=> 'Q1l6h66SpwJIoBXifM1zUsYN6Lla2IL2j-abrHUZ',    //AccessKey
+        'secret_key'=> 'zO50NGa7ZQbaB8Sxiy2qqvd6JYBhboFbLALJ8SKL',   //SecretKey
+        'bucket'    => 'muyao-pet',    //Bucket名字，即七牛云存储空间名称
+    ],
 ];

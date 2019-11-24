@@ -59,7 +59,8 @@ class MenuController
 
                 $where = $menu_model->getListWhere(['status' => 1]);
                 $count = $menu_model->getListCount($where);
-                $list = $menu_model->getList($where, 'id desc', '*');
+                $limit = $menu_model->getListLimit(['page'=>$request->post('page')-1,'num'=>$request->post('limit')]);
+                $list = $menu_model->getList($where, 'id desc', '*',$limit);
 
                 $status_ops = $menu_model->has('status',100);
 
@@ -86,7 +87,7 @@ class MenuController
                    return R('100004');
                 }
                 $this->data['title'] = trim($params['title']);
-                if(empty($params['parent'])){
+                if($params['parent'] == '' || !isset($params['parent'])){
                     return R('100005');
                 }
                 $this->data['parent'] = intval($params['parent']);
@@ -115,6 +116,35 @@ class MenuController
             $where = $menu_model->getListWhere(['status' => 1]); // 一级菜单
             $parent = $menu_model->getList($where, 'id desc', '*');
             return View('Menu.create',compact('parent'));
+        }catch (\Exception $e){
+            return R('400','错误信息:'.$e->getMessage());
+        }
+    }
+
+
+    public function del(Request $request)
+    {
+        try{
+            if(!$request->isMethod('POST')){
+                return R('410');
+            }
+            $post = $request->post()['params'];
+            $menu_id_arr = array_column($post,'id');
+
+            $err_list = [];
+            $system_model = new SystemMenuModel();
+            foreach ($menu_id_arr as $k => $v) {
+                $res = $system_model->del($v,['status'=>0]);
+                if(!$res){
+                    $err_list[$v] = '删除失败';
+                }
+            }
+            if(!empty($err_list)){
+                return R('200','删除失败信息:'.json_encode($err_list,true));
+            }
+
+            return R('200','删除成功!');
+
         }catch (\Exception $e){
             return R('400','错误信息:'.$e->getMessage());
         }

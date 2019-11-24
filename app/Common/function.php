@@ -30,11 +30,6 @@ if(!function_exists('generateTree'))
 {
     function generateTree($items)
     {
-        $type_arr = [
-            '0' => 'currency',
-            '1' => 'component',
-            '2' => 'other',
-        ];
         $tree = $menu = array();
         foreach($items as $item){
             if(isset($items[$item['parent']])){
@@ -46,7 +41,7 @@ if(!function_exists('generateTree'))
             }
         }
         foreach ($tree as $k => $v){
-            $menu['menuInfo'][$type_arr[$k]] = $v;
+            $menu[$k] = $v;
         }
         return $menu;
     }
