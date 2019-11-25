@@ -74,7 +74,7 @@ class BaseModel extends Model
         }
         $data = $db->first();
 
-        return $data;
+        return json_decode(json_encode($data,true),true);
     }
     /*
      * Desc : 查询总条数

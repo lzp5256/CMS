@@ -45,6 +45,13 @@ class GoodsModel extends BaseModel
         return $data;
     }
 
+    public function getOne($where = false , $order = false, $field = '*')
+    {
+        $db = DB::table($this->table);
+        $data = $this->findData($db,$where,$order,$field);
+        return $data;
+    }
+
     public function getListCount($where = false)
     {
         $db = DB::table($this->table);
@@ -60,6 +67,9 @@ class GoodsModel extends BaseModel
         }
         if (isset($param['parent']) && !empty($param['status'])) {
             $where .= 'parent ="' . intval($param['parent']) . '" and ';
+        }
+        if (isset($param['id']) && !empty($param['id']) && $param['id'] >0){
+            $where .= 'id ="' .intval($param['id']) . '" and ';
         }
         if (strlen($where) > 0) {
             $where = substr($where, 0, strlen($where) - 4);
