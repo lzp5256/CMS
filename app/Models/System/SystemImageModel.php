@@ -64,7 +64,7 @@ class SystemImageModel extends BaseModel
             $where .= 'goods_id = "' . intval($param['goods_id']) . '" and ';
         }
         if (isset($param['id_arr']) && !empty($param['id_arr']) ) {
-            $where .= 'goods_id IN ('.$param['id_arr'].') and ';
+            $where .= 'target_id IN ('.$param['id_arr'].') and ';
         }
         if (isset($param['type_arr']) && !empty($param['type_arr'])) {
             $where .= 'type IN ('.$param['type_arr'].') and ';

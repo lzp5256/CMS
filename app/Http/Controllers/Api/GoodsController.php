@@ -40,7 +40,7 @@ class GoodsController
             $goods_id = array_column($list,'id');
 
             // 获取图片信息
-            $system_image_where = $this->system_image_model->getListWhere(['id_arr'=>implode(',',$goods_id)]);
+            $system_image_where = $this->system_image_model->getListWhere(['id_arr'=>implode(',',$goods_id),'type_arr'=>[1,2]]);
             $system_image_list =  $this->system_image_model->getList($system_image_where, ['order_by_filed'=>'id', 'order_by_type'=>'desc'], '*',$limit);
             foreach ($system_image_list as $k => $v){
                 $image_list[$v['goods_id']][$v['type']] = $v['src'];
@@ -77,7 +77,7 @@ class GoodsController
             $info  = $this->goods_model->getOne($where);
 
             // 获取图片信息
-            $system_image_where = $this->system_image_model->getListWhere(['goods_id'=>$info['id']]);
+            $system_image_where = $this->system_image_model->getListWhere(['target_id'=>$info['id'],'type_arr'=>[1,2]]);
             $system_image_list =  $this->system_image_model->getList($system_image_where, ['order_by_filed'=>'id', 'order_by_type'=>'desc'], '*');
 
             foreach ($system_image_list as $k => $v){
