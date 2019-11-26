@@ -159,7 +159,16 @@ class SystemImageModel extends BaseModel
         return $field;
     }
 
-
+    /**
+     * 更新记录
+     */
+    public function updateById($id,$data)
+    {
+        return DB::table($this->table)
+            ->where('id','=',$id)
+            ->where('status','=',1)
+            ->update($data);
+    }
 
 
 }

@@ -25,6 +25,12 @@ class UserModel extends BaseModel
         return $data;
     }
 
+    public function getOne($where = false,$order = false,$field='*'){
+        $db = DB::table($this->table);
+        $data = $this->findData($db,$where,$order,$field);
+        return $data;
+    }
+
     public function getListWhere($param)
     {
         $where = '';
@@ -106,5 +112,18 @@ class UserModel extends BaseModel
         $db = DB::table($this->table);
         $res = $db->insertGetId($data);
         return $res;
+    }
+
+
+    /**
+     * 更新记录
+     */
+    public function updateById($id, $data)
+    {
+        if(!isset($data['update_time'])) $data['update_time'] = date('Y-m-d H:i:s');
+        return DB::table($this->table)
+            ->where('id','=',$id)
+            ->where('status','=',1)
+            ->update($data);
     }
 }
