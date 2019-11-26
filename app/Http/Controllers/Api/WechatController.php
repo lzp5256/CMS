@@ -21,31 +21,28 @@ class WechatController
     public function auth(Request $request)
     {
         try{
-//            if(!empty($request->post())){
-//                $user_info = jsonDecode($request->post());
-//            }else{
-//                return R('300','参数解析异常');
-//            }
-//            $we_response = http_request(
-//                "https://api.weixin.qq.com/sns/jscode2session?appid="
-//                . config('app.wechat_appid')
-//                . "&secret=" . config('app.wechat_secret')
-//                . "&js_code=" . $user_info['code']
-//                . "&grant_type=" . config('app.wechat_grant_type')
-//            );
-//            if(!($we_response = jsonDecode($we_response))){
-//                return R('300','微信返回参数解析失败');
-//            }
-//
-//            if(isset($we_response['errcode']) && $we_response['errcode'] > 0 ){
-//                return R($we_response['errcode'],$we_response['errmsg']);
-//            }
-//
+            if(!empty($request->post())){
+                $user_info = jsonDecode($request->post());
+            }else{
+                return R('300','参数解析异常');
+            }
+            $we_response = http_request(
+                "https://api.weixin.qq.com/sns/jscode2session?appid="
+                . config('app.wechat_appid')
+                . "&secret=" . config('app.wechat_secret')
+                . "&js_code=" . $user_info['code']
+                . "&grant_type=" . config('app.wechat_grant_type')
+            );
+            if(!($we_response = jsonDecode($we_response))){
+                return R('300','微信返回参数解析失败');
+            }
+
+            if(isset($we_response['errcode']) && $we_response['errcode'] > 0 ){
+                return R($we_response['errcode'],$we_response['errmsg']);
+            }
+
             // 开启事务
             DB::beginTransaction();
-            $user_info = jsonDecode($request->post('user_info'));
-            $we_response['openid']= 'oLDZL5DLnG-XLCnGYYGla3oiAFxA';
-            $we_response['session_key'] = '111';
             // 如果存在用户 && 主表数据为有效时，只更新有效期和token
             $where = $this->user_extension_model->getListWhere(['we_openid'=>$we_response['openid']]);
             $get_user_info = $this->user_extension_model->getOne($where);
