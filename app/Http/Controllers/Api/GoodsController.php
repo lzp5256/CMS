@@ -40,10 +40,10 @@ class GoodsController
             $goods_id = array_column($list,'id');
 
             // 获取图片信息
-            $system_image_where = $this->system_image_model->getListWhere(['id_arr'=>implode(',',$goods_id),'type_arr'=>[1,2]]);
+            $system_image_where = $this->system_image_model->getListWhere(['id_arr'=>implode(',',$goods_id),'type_arr'=>implode(',',[1,2])]);
             $system_image_list =  $this->system_image_model->getList($system_image_where, ['order_by_filed'=>'id', 'order_by_type'=>'desc'], '*',$limit);
             foreach ($system_image_list as $k => $v){
-                $image_list[$v['goods_id']][$v['type']] = $v['src'];
+                $image_list[$v['target_id']][$v['type']] = $v['src'];
             }
             foreach ($list as $k => $v) {
                 $list[$k]['goods_original_price'] = bcdiv($v['goods_original_price'],100,2);
@@ -77,11 +77,11 @@ class GoodsController
             $info  = $this->goods_model->getOne($where);
 
             // 获取图片信息
-            $system_image_where = $this->system_image_model->getListWhere(['target_id'=>$info['id'],'type_arr'=>[1,2]]);
+            $system_image_where = $this->system_image_model->getListWhere(['target_id'=>$info['id'],'type_arr'=>implode(',',[1,2])]);
             $system_image_list =  $this->system_image_model->getList($system_image_where, ['order_by_filed'=>'id', 'order_by_type'=>'desc'], '*');
 
             foreach ($system_image_list as $k => $v){
-                $image_list[$v['goods_id']][$v['type']] = $v['src'];
+                $image_list[$v['target_id']][$v['type']] = $v['src'];
             }
             $info['goods_original_price'] = bcdiv($info['goods_original_price'],100,2);
             $info['goods_price'] = bcdiv($info['goods_price'],100,2);
