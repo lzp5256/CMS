@@ -18,6 +18,12 @@ class UserExtensionModel extends BaseModel
         return $data;
     }
 
+    public function getOne($where = false,$order = false,$field='*'){
+        $db = DB::table($this->table);
+        $data = $this->findData($db,$where,$order,$field);
+        return $data;
+    }
+
     public function getListCount($where=false)
     {
         $db = DB::table($this->table);
@@ -30,6 +36,9 @@ class UserExtensionModel extends BaseModel
         $where = '';
         if(isset($param['status']) && in_array($param['status'],[0,1])){
             $where .= 'status ="' . intval($param['status']). '" and ';
+        }
+        if (isset($param['we_openid']) && !empty($param['we_openid'])){
+            $where .= 'we_openid ="' . trim($param['we_openid']). '" and ';
         }
         if(strlen($where) > 0){
             $where = substr($where,0,strlen($where)-4);
@@ -107,4 +116,14 @@ class UserExtensionModel extends BaseModel
         $res = $db->insertGetId($data);
         return $res;
     }
+
+    /**
+     * 更新记录
+     */
+    public function updateById($id, $data)
+    {
+        return DB::table($this->table)->where('id','=',$id)->update($data);
+    }
+
+
 }
