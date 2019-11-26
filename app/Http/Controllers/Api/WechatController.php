@@ -30,7 +30,7 @@ class WechatController
                 "https://api.weixin.qq.com/sns/jscode2session?appid="
                 . config('app.wechat_appid')
                 . "&secret=" . config('app.wechat_secret')
-                . "&js_code=" . $user_info['code']
+                . "&js_code=" . $user_info['code']['code']
                 . "&grant_type=" . config('app.wechat_grant_type')
             );
             if(!($we_response = jsonDecode($we_response))){
