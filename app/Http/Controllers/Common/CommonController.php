@@ -26,7 +26,7 @@ class CommonController
         if($target <= 0 || empty($target) || !isset($target)) return R('0','图片ID解析失败');
 
         $create_data = [
-            'traget_id' => (int) $target,       // 根据type来区分 | type = 1 为商品id  | type=2为商品id |  type=10为用户id
+            'target_id' => (int) $target,       // 根据type来区分 | type = 1 为商品id  | type=2为商品id |  type=10为用户id
             'type'      => (int) $type,         // 类型 1=商品首图 2=商品详情 3=用户头像
             'src'       => (string) trim($src), // 图片地址,只保存图片名称
             'status'    => (int) 1,             // 状态
