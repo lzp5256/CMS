@@ -63,8 +63,8 @@ class CommonController
 
     /**
      * 公共方法：获取相关图片信息，唯一入口
-     * @param array $id
-     * @param int $type
+     * @param array $id  图片id
+     * @param int $type  类型
      * @return false|string
      */
     public function GetImagesById($id = array() , $type = 0)
