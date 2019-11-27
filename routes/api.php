@@ -33,4 +33,5 @@ Route::post('goods/search','Api\GoodsController@get_goods_search');
 Route::post('user/info','Api\UserController@get_user_info');
 
 ## 签到
+Route::post('sign/config','Api\SignController@get_sign_config');
 

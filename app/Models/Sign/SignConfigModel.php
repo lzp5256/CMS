@@ -1,15 +1,13 @@
 <?php
-
-namespace App\Models\System;
-
+namespace App\Models\Sign;
 
 use App\Models\BaseModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class SystemImageModel extends BaseModel
+class SignConfigModel extends BaseModel
 {
-    protected $table = 'm_system_image';
+    protected $table ='m_sign_config';
 
     public function has($filed = '', $val_all = '100')
     {
@@ -34,6 +32,7 @@ class SystemImageModel extends BaseModel
         return [];
     }
 
+    // 获取列表
     public function getList($where = false, $order = false, $field = "*", $limit = false)
     {
         $db = DB::table($this->table);
@@ -41,6 +40,7 @@ class SystemImageModel extends BaseModel
         return $data;
     }
 
+    // 获取查询条数
     public function getListCount($where = false)
     {
         $db = DB::table($this->table);
@@ -48,6 +48,7 @@ class SystemImageModel extends BaseModel
         return $data;
     }
 
+    // 获取查询条件
     public function getListWhere($param)
     {
         $where = '';
@@ -57,37 +58,13 @@ class SystemImageModel extends BaseModel
         if (isset($param['id']) && !empty($param['id'])) {
             $where .= 'id = "' . intval($param['id']) . '" and ';
         }
-        if (isset($param['goods_id']) && !empty($param['goods_id'])) {
-            $where .= 'goods_id = "' . intval($param['goods_id']) . '" and ';
-        }
-        if (isset($param['system_id_arr']) && !empty($param['system_id_arr']) ) {
-            $where .= 'id IN ('.$param['system_id_arr'].') and ';
-        }
-        if (isset($param['id_arr']) && !empty($param['id_arr']) ) {
-            $where .= 'target_id IN ('.$param['id_arr'].') and ';
-        }
-        if (isset($param['type_arr']) && !empty($param['type_arr'])) {
-            $where .= 'type IN ('.$param['type_arr'].') and ';
-        }
-        if (isset($param['type']) && !empty($param['type'])){
-            $where .= 'type ="' .intval($param['type']) .'" and ';
-        }
         if (strlen($where) > 0) {
             $where = substr($where, 0, strlen($where) - 4);
         }
         return $where;
     }
 
-    /*
-     * @Content : 获取limit
-     * @Param   : $param
-     * @Return  : [
-     *				'limit' => [
-     *								'page' => 开始
-     *								'length' => 条数
-     *							]
-     *				]
-     */
+    // 获取limit
     public function getListLimit($param)
     {
         $limit = [];
@@ -99,9 +76,7 @@ class SystemImageModel extends BaseModel
         return $limit;
     }
 
-    /**
-     * 创建新记录
-     */
+    // 创建新记录
     public function create($data)
     {
         if (!isset($data['create_time'])) {
@@ -112,9 +87,7 @@ class SystemImageModel extends BaseModel
         return $res;
     }
 
-    /**
-     * 删除记录
-     */
+    // 删除记录
     public function del($where,$data)
     {
         $db = DB::table($this->table);
@@ -122,16 +95,7 @@ class SystemImageModel extends BaseModel
         return $res;
     }
 
-    /*
-     * @Content : 获取order_by
-     * @Param   : $param
-     * @Return  : [
-     *				'order' => [
-     *								'field' => 字段
-     *								'type' => 'desc/asc'
-     *							]
-     *				]
-     */
+    // 获取order_by
     protected function getListOrderBy($param)
     {
         $order = [];
@@ -145,13 +109,7 @@ class SystemImageModel extends BaseModel
         return $order;
     }
 
-    /*
-     * @Content : 获取field
-     * @Param   : $param
-     * @Return  : [
-     *				'field' => 查询字段部分sql 例如: id,name,pwd 默认为*
-     *				]
-     */
+    // 获取field
     protected function getOrderListFiled($param)
     {
         $field = '*';
@@ -162,9 +120,7 @@ class SystemImageModel extends BaseModel
         return $field;
     }
 
-    /**
-     * 更新记录
-     */
+    // 更新记录
     public function updateById($id,$data)
     {
         return DB::table($this->table)
@@ -172,6 +128,4 @@ class SystemImageModel extends BaseModel
             ->where('status','=',1)
             ->update($data);
     }
-
-
 }
