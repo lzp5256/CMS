@@ -28,3 +28,9 @@ Route::post('wechat/auth','Api\WechatController@auth');
 Route::post('goods/list','Api\GoodsController@get_goods_list');
 Route::post('goods/info','Api\GoodsController@get_goods_info');
 Route::post('goods/search','Api\GoodsController@get_goods_search');
+
+## 用户
+Route::post('user/info','Api\UserController@get_user_info');
+
+## 签到
+

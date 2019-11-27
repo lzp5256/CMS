@@ -2,13 +2,17 @@
 namespace App\Http\Controllers\Common;
 
 use App\Models\System\SystemImageModel;
+use App\Models\User\UserModel;
 
 class CommonController
 {
     public function __construct()
     {
         $this->system_image_model = new SystemImageModel();
+        $this->user_model = new UserModel();
     }
+
+    #================================== 图片相关 =================================#
 
     /**
      * 公共方法：创建新图片信息，唯一入口
@@ -55,5 +59,45 @@ class CommonController
         if(!$update_res) return R('0','图片更新失败');
 
         return R('200','图片更新成功',$update_res);
+    }
+
+    /**
+     * 公共方法：获取相关图片信息，唯一入口
+     * @param array $id
+     * @param int $type
+     * @return false|string
+     */
+    public function GetImagesById($id = array() , $type = 0)
+    {
+        if(!is_array($id) || empty($id) ) return R('100028');
+        if(empty($type) || !in_array($type,[1,2,3])) return R('100029');
+
+        $where = $this->system_image_model->getListWhere([
+            'system_id_arr' => implode(',',$id),
+            'type'   => intval($type),
+            'status' =>1
+        ]);
+        $res = $this->system_image_model->getList($where);
+        foreach ($res as $k => $v) {
+            $response[$v['type']] = $v;
+        }
+        return R('200','获取成功',$response);
+    }
+
+    #================================== 用户相关 =================================#
+
+    /**
+     * 公共方法: 获取用户详情，查询用户唯一入口
+     * @param $id 用户id
+     * @return false|string
+     */
+    public function GetUserInfo($id)
+    {
+        if(empty($id) || intval($id) <= 0 || !isset($id)) return R('100027');
+
+        $where = $this->user_model->getListWhere(['id'=>intval($id),'status'=>1]);
+        $res = $this->user_model->getOne($where);
+
+        return R('200','用户详情获取成功',$res);
     }
 }
