@@ -37,6 +37,9 @@ class UserModel extends BaseModel
         if(isset($param['status']) && in_array($param['status'],[0,1])){
             $where .= 'status ="' . intval($param['status']). '" and ';
         }
+        if(isset($param['id']) && intval($param['id']) > 0 && !empty($param['id'])){
+            $where .= 'id ="' .intval($param['id']). '" and ';
+        }
         if(strlen($where) > 0){
             $where = substr($where,0,strlen($where)-4);
         }

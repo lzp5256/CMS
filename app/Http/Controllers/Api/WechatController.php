@@ -22,7 +22,7 @@ class WechatController
     {
         try{
             if(!empty($request->post())){
-                $user_info = jsonDecode($request->post());
+                $user_info = $request->post();
             }else{
                 return R('300','参数解析异常');
             }
