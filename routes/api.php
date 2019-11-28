@@ -34,4 +34,5 @@ Route::post('user/info','Api\UserController@get_user_info');
 
 ## 签到
 Route::post('sign/config','Api\SignController@get_sign_config');
+Route::post('sign/user','Api\SignController@get_sign_user');
 

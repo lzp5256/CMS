@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers\Common;
 
+use App\Models\Integral\IntegralFlowModel;
+use App\Models\Integral\IntegralModel;
 use App\Models\System\SystemImageModel;
 use App\Models\User\UserModel;
 
@@ -10,6 +12,8 @@ class CommonController
     {
         $this->system_image_model = new SystemImageModel();
         $this->user_model = new UserModel();
+        $this->integral_model = new IntegralModel();
+        $this->integral_flow_model = new IntegralFlowModel();
     }
 
     #================================== 图片相关 =================================#
@@ -99,5 +103,30 @@ class CommonController
         $res = $this->user_model->getOne($where);
 
         return R('200','用户详情获取成功',$res);
+    }
+
+    /**
+     * 公共方法: 获取用户积分,唯一入口
+     * @param $id 用户Id
+     * @return false|string
+     */
+    public function GetUserIntegral($id)
+    {
+        if(!isset($id) || empty($id) || $id <= 0) return R('100027');
+
+        $where = $this->integral_model->getListWhere(['user_id'=>$id,'status'=>1]);
+        $res = $this->integral_model->getOne($where);
+
+        return R('200','查询成功',$res);
+    }
+
+    public function GetUserSignInfo($id)
+    {
+        if(!isset($id) || empty($id) || $id <= 0) return R('100027');
+
+        $where = $this->integral_flow_model->getListWhere(['user_id'=>$id,'status'=>1,'type'=>1,'create_time'=>date('Y-m-d',time())]);
+        $res = $this->integral_flow_model->getOne($where);
+
+        return R('200','查询成功',$res);
     }
 }
