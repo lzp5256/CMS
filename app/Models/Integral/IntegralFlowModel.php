@@ -1,15 +1,13 @@
 <?php
-
-namespace App\Models\User;
+namespace App\Models\Integral;
 
 use App\Models\BaseModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-
-class UserExtensionModel extends BaseModel
+class IntegralFlowModel extends BaseModel
 {
-    protected $table ='m_user_extension';
+    protected $table = 'm_integral_flow';
 
     public function getList($where=false,$order=false,$field="*",$limit=false)
     {
@@ -37,11 +35,14 @@ class UserExtensionModel extends BaseModel
         if(isset($param['status']) && in_array($param['status'],[0,1])){
             $where .= 'status ="' . intval($param['status']). '" and ';
         }
-        if (isset($param['we_openid']) && !empty($param['we_openid'])){
-            $where .= 'we_openid ="' . trim($param['we_openid']). '" and ';
+        if (isset($param['user_id']) && !empty($param['user_id'])){
+            $where .= 'user_id ="' .trim($param['user_id']) . '" and ';
         }
-        if (isset($param['token']) && !empty($param['token'])){
-            $where .= 'token ="' .trim($param['token']) . '" and ';
+        if (isset($param['type']) && !empty($param['type'])){
+            $where .= 'type ="' .intval($param['type']) . '" and ';
+        }
+        if (isset($param['create_time']) && !empty($param['create_time'])){
+            $where .= 'create_time >="'.$param['create_time'] .'" and';
         }
         if(strlen($where) > 0){
             $where = substr($where,0,strlen($where)-4);
@@ -127,6 +128,4 @@ class UserExtensionModel extends BaseModel
     {
         return DB::table($this->table)->where('id','=',$id)->update($data);
     }
-
-
 }
