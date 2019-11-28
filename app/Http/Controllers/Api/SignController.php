@@ -30,7 +30,9 @@ class SignController extends BaseController
         try{
              $where = $this->sign_config_model->getListWhere(['status'=>1]);
              $list  = $this->sign_config_model->getList($where);
-
+             foreach ($list as $k => $v){
+                 $list[$k]['date'] = $this->date_list[$v['date']];
+             }
              return R('200','获取成功',$list);
         }catch (\Exception $e){
             return R('400','错误信息:'.$e->getMessage());

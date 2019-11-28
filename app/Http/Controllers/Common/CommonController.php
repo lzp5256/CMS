@@ -120,6 +120,11 @@ class CommonController
         return R('200','查询成功',$res);
     }
 
+    /**
+     * 公共方法:获取用户登录状态
+     * @param $id 用户Id
+     * @return false|string
+     */
     public function GetUserSignInfo($id)
     {
         if(!isset($id) || empty($id) || $id <= 0) return R('100027');
