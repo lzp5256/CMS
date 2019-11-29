@@ -134,4 +134,20 @@ class CommonController
 
         return R('200','查询成功',$res);
     }
+
+    /**
+     * 公共方法:获取用户签到详情列表
+     * @param $id 用户Id
+     * @return false|string
+     */
+    public function GetUserSignList($id)
+    {
+        if(!isset($id) || empty($id) || $id <= 0) return R('100027');
+
+        $where = $this->integral_flow_model->getListWhere(['user_id'=>$id,'status'=>1,'type'=>1]);
+        $count = $this->integral_flow_model->getListCount($where);
+        $res   = $this->integral_flow_model->getList($where,['order_by_filed'=>'id','order_by_type'=>'desc']);
+
+        return R('200','查询成功',$res,$count);
+    }
 }
