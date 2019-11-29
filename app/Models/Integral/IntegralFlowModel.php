@@ -79,7 +79,7 @@ class IntegralFlowModel extends BaseModel
      *							]
      *				]
      */
-    protected function getListOrderBy($param)
+    public function getListOrderBy($param)
     {
         $order = [];
         //order_by
@@ -98,7 +98,7 @@ class IntegralFlowModel extends BaseModel
      *				'field' => 查询字段部分sql 例如: id,name,pwd 默认为*
      *				]
      */
-    protected function getListFiled($param)
+    public function getListFiled($param)
     {
         $field = '*';
         //field
