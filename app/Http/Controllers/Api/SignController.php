@@ -84,7 +84,7 @@ class SignController extends BaseController
             $user_info['integral_total'] = isset($get_user_integral['data']['total']) && !empty($get_user_integral['data']['total']) ? $get_user_integral['data']['total'] : 0;
             $user_info['user_sign_status'] = empty($get_user_sign['data']) ? 0 : 1;
             $user_info['sum_sgin_day'] = $get_user_sign_list['count'];
-            $user_info['sign_num'] = $get_user_sign_list['data'][0]['target_id'];
+            $user_info['sign_num'] = isset($get_user_sign_list['data']) && !empty($get_user_sign_list['data']) ? $get_user_sign_list['data'][0]['target_id'] : 0;
 
             return R('200','查询成功',$user_info);
         }catch (\Exception $e){
