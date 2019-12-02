@@ -121,7 +121,7 @@ class CommonController
     }
 
     /**
-     * 公共方法:获取用户登录状态
+     * 公共方法:获取用户签到状态
      * @param $id 用户Id
      * @return false|string
      */
@@ -149,5 +149,65 @@ class CommonController
         $res   = $this->integral_flow_model->getList($where,['order_by_filed'=>'id','order_by_type'=>'desc']);
 
         return R('200','查询成功',$res,$count);
+    }
+
+    #================================== 积分相关 =================================#
+
+    /**
+     * 公共方法:添加积分流水记录
+     * @param int $user_id 用户id
+     * @param int $type 类型
+     * @param int $target_id 类型对应的id
+     * @param int $reward  积分
+     * @return false|string
+     */
+    public function SetIntegralFlow($user_id = 0 , $type = 1, $target_id = 0 , $reward = 0)
+    {
+        if (!isset($user_id) || empty($user_id) || $user_id <= 0) return R('100027');
+        if (empty($type) || $type < 1) return R('100031');
+        if (empty($target_id) || $target_id <= 0) return R('100032');
+
+        $create_data = [
+            'user_id'   => $user_id,
+            'type'      => $type,
+            'target_id' => $target_id,
+            'reward'    => $reward,
+            'status'    => 1,
+            'create_time' => date('Y-m-d H:i:s'),
+        ];
+        $create_integral_flow_res = $this->integral_flow_model->create($create_data);
+        if (!$create_integral_flow_res){
+            return R('0','添加积分流水失败');
+        }
+        return R('200','添加成功',['id'=>$create_integral_flow_res]);
+    }
+
+    public function SetIntegral($user_id = 0 ,$total = 0)
+    {
+        if (empty($user_id) || $user_id <= 0) return R('100027');
+
+        $get_integral_where = $this->integral_model->getListWhere(['status'=>1,'user_id'=>intval($user_id)]);
+        $get_user_integral = $this->integral_model->getOne($get_integral_where);
+
+        // 用户积分账户不存在
+        if (empty($get_user_integral)){
+            $data['total']   = intval($total);
+            $data['status']  = 1;
+            $data['user_id'] = intval($user_id);
+            $data['create_time'] =date('Y-m-d H:i:s');
+            $create_integral_res = $this->integral_model->create($data);
+            if(!$create_integral_res){
+                return R('0','创建用户积分账户失败');
+            }
+            return R('200','成功',['id'=>$create_integral_res]);
+        }
+        // 用户积分账户存在
+        $update_integral_res = $this->integral_model->incrementById($get_user_integral['id'],'total',intval($total));
+
+        if(!$update_integral_res){
+            return R('0','用户积分账户更新失败');
+        }
+
+        return R('200','成功',['id'=>$update_integral_res]);
     }
 }

@@ -40,6 +40,13 @@ class SignConfigModel extends BaseModel
         return $data;
     }
 
+    // 获取单条记录
+    public function getOne($where = false,$order = false,$field='*'){
+        $db = DB::table($this->table);
+        $data = $this->findData($db,$where,$order,$field);
+        return $data;
+    }
+
     // 获取查询条数
     public function getListCount($where = false)
     {
@@ -57,6 +64,9 @@ class SignConfigModel extends BaseModel
         }
         if (isset($param['id']) && !empty($param['id'])) {
             $where .= 'id = "' . intval($param['id']) . '" and ';
+        }
+        if (isset($param['date']) && !empty($param['date'])){
+            $where .= 'date = "' .intval($param['date']) . '" and ';
         }
         if (strlen($where) > 0) {
             $where = substr($where, 0, strlen($where) - 4);
