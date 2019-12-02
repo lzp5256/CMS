@@ -166,6 +166,10 @@ class SignController extends BaseController
             return R($sign_list_res['code'],$sign_list_res['msg']);
         }
 
+        foreach ($sign_list_res['data'] as $k => $v){
+            $sign_list_res['data'][$k]['title'] = '用户签到详情';
+        }
+
         return R('200','查询成功',$sign_list_res['data'],$sign_list_res['count']);
     }
 }
