@@ -122,4 +122,14 @@ class IntegralModel extends BaseModel
     {
         return DB::table($this->table)->where('id','=',$id)->update($data);
     }
+
+    /**
+     * 更新记录，并且total字段自增
+     */
+    public function incrementById($id,$key,$val,$data = array() )
+    {
+        if(empty($data)) $data['update_time'] = date('Y-m-d H:i:s');
+
+        return DB::table($this->table)->where('id','=',$id)->increment($key, $val,$data);
+    }
 }
