@@ -143,6 +143,6 @@ class SignController extends BaseController
         }
 
         DB::commit();
-        return R('200');
+        return R('200','签到成功',['integral'=>$sign_reward]);
     }
 }
