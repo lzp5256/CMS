@@ -140,14 +140,17 @@ class CommonController
      * @param $id 用户Id
      * @return false|string
      */
-    public function GetUserSignList($id)
+    public function GetUserSignList($id,$page=0,$limit=0)
     {
         if(!isset($id) || empty($id) || $id <= 0) return R('100027');
 
+        $list_limit = '';
         $where = $this->integral_flow_model->getListWhere(['user_id'=>$id,'status'=>1,'type'=>1]);
         $count = $this->integral_flow_model->getListCount($where);
-        $res   = $this->integral_flow_model->getList($where,['order_by_filed'=>'id','order_by_type'=>'desc']);
-
+        if(!empty($page) && !empty($limit)){
+            $list_limit = $this->integral_model->getListLimit(['page'=>intval($page) - 1,'num'=>intval($limit)]);
+        }
+        $res   = $this->integral_flow_model->getList($where,['order_by_filed'=>'id','order_by_type'=>'desc'],'*',$list_limit);
         return R('200','查询成功',$res,$count);
     }
 
@@ -182,6 +185,12 @@ class CommonController
         return R('200','添加成功',['id'=>$create_integral_flow_res]);
     }
 
+    /**
+     * 公共方法:储存用户积分信息
+     * @param int $user_id
+     * @param int $total
+     * @return false|string
+     */
     public function SetIntegral($user_id = 0 ,$total = 0)
     {
         if (empty($user_id) || $user_id <= 0) return R('100027');

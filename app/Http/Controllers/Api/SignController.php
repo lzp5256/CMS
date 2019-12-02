@@ -145,4 +145,27 @@ class SignController extends BaseController
         DB::commit();
         return R('200','签到成功',['integral'=>$sign_reward]);
     }
+
+    public function get_sign_detail(Request $request)
+    {
+        $headers = $request->header();
+        $params  = $request->post();
+        // 验证token
+        if (($verify_token_res = json_decode($this->token_verify($headers),true)) && $verify_token_res['code'] != '200'){
+            return R($verify_token_res['code'],$verify_token_res['msg']);
+        }
+        $user_info = $verify_token_res['data'];
+        // 验证参数
+        if (empty($params['page']) || !isset($params['page'])){
+            return R('100025');
+        }
+        if (empty($params['limit']) || !isset($params['limit'])){
+            return R('100034');
+        }
+        if( ($sign_list_res = json_decode($this->common->GetUserSignList($user_info['id'],$params['page'],$params['limit']),true)) && $sign_list_res['code']!='200' ){
+            return R($sign_list_res['code'],$sign_list_res['msg']);
+        }
+
+        return R('200','查询成功',$sign_list_res['data'],$sign_list_res['count']);
+    }
 }

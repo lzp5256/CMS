@@ -36,4 +36,5 @@ Route::post('user/info','Api\UserController@get_user_info');
 Route::post('sign/config','Api\SignController@get_sign_config');
 Route::post('sign/user','Api\SignController@get_sign_user');
 Route::post('sign/integral','Api\SignController@set_sign_integral');
+Route::post('sign/detail','Api\SignController@get_sign_detail');
 
