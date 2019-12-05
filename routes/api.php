@@ -38,3 +38,7 @@ Route::post('sign/user','Api\SignController@get_sign_user');
 Route::post('sign/integral','Api\SignController@set_sign_integral');
 Route::post('sign/detail','Api\SignController@get_sign_detail');
 
+## 地址
+Route::post('address/edit','Api\AddressController@set_address_info');
+Route::post('address/list','Api\AddressController@get_address_list');
+
