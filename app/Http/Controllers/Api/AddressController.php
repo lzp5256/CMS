@@ -69,7 +69,7 @@ class AddressController extends BaseController
            if(empty($params['detail'])){
                return R('100037');
            }
-           $address = json_decode($params['address'],true);
+           $address = $params['address'];
            if(empty($params['id'])){
               $data = [
                   'user_id' => (int)$user['id'],
