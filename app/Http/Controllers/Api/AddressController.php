@@ -12,6 +12,11 @@ class AddressController extends BaseController
         $this->address_model = new AddressModel();
     }
 
+    /**
+     * 获取地址列表
+     * @param Request $request
+     * @return false|string
+     */
     public function get_address_list(Request $request)
     {
         try{
@@ -107,5 +112,27 @@ class AddressController extends BaseController
        } catch (\Exception $e){
            return R('400','错误信息:'.$e->getMessage());
        }
+    }
+
+
+    public function get_address_default(Request $request)
+    {
+        try{
+            $headers = $request->header();
+
+            // 验证token
+            if (($verify_token_res = json_decode($this->token_verify($headers),true)) && $verify_token_res['code'] != '200'){
+                return R($verify_token_res['code'],$verify_token_res['msg']);
+            }
+            $user = $verify_token_res['data'];
+
+            // 获取默认地址
+            $where = $this->address_model->getListWhere(['status' => 1 ,'user_id'=>$user['id']]);
+            $res = $this->address_model->getOne($where);
+
+            return R('200','查询成功',$res);
+        }catch (\Exception $e){
+           return R('400','错误信息:'.$e->getMessage());
+        }
     }
 }
