@@ -38,6 +38,9 @@ class AddressModel extends BaseModel
         if (isset($param['user_id']) && !empty($param['user_id'])){
             $where .= 'user_id ="' .trim($param['user_id']) . '" and ';
         }
+        if (isset($param['id']) && !empty($param['id'])){
+            $where .= 'id ="' .intval($param['id']). '" and ';
+        }
         if(strlen($where) > 0){
             $where = substr($where,0,strlen($where)-4);
         }
