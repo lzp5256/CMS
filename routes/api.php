@@ -42,4 +42,5 @@ Route::post('sign/detail','Api\SignController@get_sign_detail');
 Route::post('address/edit','Api\AddressController@set_address_info');
 Route::post('address/list','Api\AddressController@get_address_list');
 Route::post('address/default','Api\AddressController@get_address_default');
+Route::post('address/detail','Api\AddressController@get_address_detail');
 

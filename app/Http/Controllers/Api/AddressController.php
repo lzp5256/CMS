@@ -135,4 +135,22 @@ class AddressController extends BaseController
            return R('400','错误信息:'.$e->getMessage());
         }
     }
+
+    public function get_address_detail(Request $request)
+    {
+        try{
+            $id = $request->post('addressId');
+
+            if(!isset($id) || empty($id)){
+                return R('100039');
+            }
+            $where = $this->address_model->getListWhere(['status'=>1,'id'=>$id]);
+            $res = $this->address_model->getOne($where);
+
+            return R('200','查询成功',$res);
+
+        }catch (\Exception $e){
+            return R('400','错误信息:'.$e->getMessage());
+        }
+    }
 }
