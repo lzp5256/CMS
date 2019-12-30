@@ -46,3 +46,6 @@ Route::any('/goods/type_create','GoodsController@goods_type_create')->name('good
 Route::any('/goods/brand_list','GoodsController@goods_brand_list')->name('goods.brandlist');
 Route::any('/goods/brand_create','GoodsController@goods_brand_create')->name('goods.brandcreate');
 
+## 海报管理
+Route::any('/poster/poster_list','PosterController@poster_list')->name('poster.list');
+Route::any('/poster/poster_create','PosterController@poster_create')->name('poster.create');
