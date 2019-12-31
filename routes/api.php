@@ -25,9 +25,11 @@ Route::get('test',function (){
 Route::post('wechat/auth','Api\WechatController@auth');
 
 ## 商品
-Route::post('goods/list','Api\GoodsController@get_goods_list');
-Route::post('goods/info','Api\GoodsController@get_goods_info');
-Route::post('goods/search','Api\GoodsController@get_goods_search');
+Route::post('goods/list','Api\GoodsController@get_goods_list'); // 获取商品列表
+Route::post('goods/info','Api\GoodsController@get_goods_info'); // 获取商品详情
+Route::post('goods/search','Api\GoodsController@get_goods_search'); // 商品搜索
+Route::post('goods/redeem_list','Api\GoodsController@get_redeem_list'); // 积分兑换
+Route::post('goods/as_list','Api\GoodsController@get_as_list'); // 预售商品列表
 
 ## 用户
 Route::post('user/info','Api\UserController@get_user_info');

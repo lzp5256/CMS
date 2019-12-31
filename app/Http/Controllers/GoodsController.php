@@ -132,9 +132,8 @@ class GoodsController
                     return R('0');
                 }
 
-
                 $create_system_master_data = [
-                    'goods_id' => $create_goods_res,
+                    'target_id' => $create_goods_res,
                     'type' => 1,
                     'src'  => json_encode($upload_master_file),
                     'status' => 1,
@@ -146,8 +145,11 @@ class GoodsController
                 }
 
                 $create_system_describe_data = [
-                    'goods_id' => $create_goods_res,
+                    'target_id' => $create_goods_res,
                     'type' => 2,
+
+
+
                     'src'  => $params['upload_describe_file'],
                     'status' => 1,
                 ];
