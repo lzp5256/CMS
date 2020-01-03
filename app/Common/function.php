@@ -74,3 +74,13 @@ if(!function_exists('http_request'))
     }
 }
 
+/**
+ * 生成订单
+ */
+if(!function_exists('getOrderSn')){
+    function getOrderSn($prefix = 'MY'){
+        return $prefix . (strtotime(date('YmdHis', time()))) . substr(microtime(), 2, 6) . sprintf('%03d', rand(0, 999));
+    }
+}
+
+
