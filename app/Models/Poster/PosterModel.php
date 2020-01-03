@@ -9,6 +9,8 @@ class PosterModel extends BaseModel
 {
     protected $table ='m_poster';
 
+    protected $type_list = [1,2,3,4]; // 类型 1：首页轮播banner(大图)  2：首页小海报 3:精品推荐banner 4:logo
+
     public function has($filed = '', $val_all = '100')
     {
         $ops = [];
@@ -65,8 +67,8 @@ class PosterModel extends BaseModel
         if (isset($param['id']) && !empty($param['id'])) {
             $where .= 'id = "' . intval($param['id']) . '" and ';
         }
-        if (isset($param['date']) && !empty($param['date'])){
-            $where .= 'date = "' .intval($param['date']) . '" and ';
+        if (isset($param['type']) && !empty($param['type']) && in_array($param['type'],$this->type_list)){
+            $where .= 'type = "' .intval($param['type']) . '" and ';
         }
         if (strlen($where) > 0) {
             $where = substr($where, 0, strlen($where) - 4);
@@ -106,11 +108,11 @@ class PosterModel extends BaseModel
     }
 
     // 获取order_by
-    protected function getListOrderBy($param)
+     public function getListOrderBy($param)
     {
         $order = [];
         //order_by
-        if (isset($param['order_by_filed']) && $param['order_by_filed'] && isset($param['order_by_type']) && $param['order_by_type']) {
+        if (isset($param['order_by_field']) && $param['order_by_field'] && isset($param['order_by_type']) && $param['order_by_type']) {
             $order = [
                 'field' => trim($param['order_by_field']),
                 'type' => trim($param['order_by_type']),

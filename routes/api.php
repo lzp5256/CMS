@@ -21,8 +21,9 @@ Route::get('test',function (){
     return 1111;
 })->middleware('apiAuth');
 
-## 微信
+## 公共接口
 Route::post('wechat/auth','Api\WechatController@auth');
+Route::post('wechat/logo','Api\WechatController@get_logo');
 
 ## 商品
 Route::post('goods/list','Api\GoodsController@get_goods_list'); // 获取商品列表
