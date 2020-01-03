@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Common\CommonController;
+use App\Models\Poster\PosterModel;
 use App\Models\Region\RegionModel;
 use App\Models\User\UserExtensionModel;
 use App\Models\User\UserModel;
@@ -16,8 +17,14 @@ class WechatController
         $this->region_model = new RegionModel();
         $this->user_extension_model = new UserExtensionModel();
         $this->CommonCtroller = new CommonController();
+        $this->poster_model = new PosterModel();
     }
 
+    /**
+     * 微信登录
+     * @param Request $request
+     * @return false|string
+     */
     public function auth(Request $request)
     {
         try{
@@ -159,5 +166,30 @@ class WechatController
 
     }
 
-
+    /**
+     * 获取logo
+     * @param Request $request
+     * @return false|string
+     */
+    public function get_logo(Request $request)
+    {
+        try{
+            $res = [
+                'src' => 'http://img.muyaocn.com/logo-20200103.png'
+            ];
+            $params = $request->post();
+            if(empty($params)){
+                return R('300','参数解析异常');
+            }
+            $getPosterWhere = $this->poster_model->getListWhere(['status'=>1,'type'=>4]); // 4:logo
+            $getPosterOrder = $this->poster_model->getListOrderBy(['order_by_field'=>'id','order_by_type'=>'DESC']);
+            $getPosterInfo = $this->poster_model->getOne($getPosterWhere,$getPosterOrder);
+            if(empty($getPosterInfo)){
+                return R('200','查询成功',$res);
+            }
+            return R('200','查询成功',$getPosterInfo);
+        }catch (\Exception $e){
+            return R('500',$e->getMessage());
+        }
+    }
 }

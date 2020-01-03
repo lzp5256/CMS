@@ -96,4 +96,54 @@ class GoodsController
             return R('400','错误信息:'.$e->getMessage());
         }
     }
+
+    /**
+     * 积分兑换商品列表
+     */
+    public function get_redeem_list(Request $request)
+    {
+        try{
+            $params = $request->post();
+            if(empty($params)){
+                return R('300001');
+            }
+            if(empty($params['page']) || $params['page'] <= 0 ){
+                return R('100025');
+            }
+            $params['page'] = $params['page']-1;
+            $params['num'] = isset($params['num']) ? $params['num'] : 5;
+
+            $where = $this->goods_model->getListWhere(['status' => 1,'goods_redeem'=>1]);
+            $count = $this->goods_model->getListCount($where);
+            $limit = $this->goods_model->getListLimit($params);
+            $list = $this->goods_model->getList($where, ['order_by_filed'=>'id', 'order_by_type'=>'desc'], '*',$limit);
+            return R('200','查询成功!',$list,$count);
+        }catch (\Exception $e){
+            return R('400','错误信息:'.$e->getMessage());
+        }
+    }
+
+    public function get_as_list(Request $request)
+    {
+        try{
+            $params = $request->post();
+            if(empty($params)){
+                return R('300001');
+            }
+            if(empty($params['page']) || $params['page'] <= 0 ){
+                return R('100025');
+            }
+            $params['page'] = $params['page']-1;
+            $params['num'] = isset($params['num']) ? $params['num'] : 10;
+
+            $where = $this->goods_model->getListWhere(['status' => 1,'goods_advance_sale'=>1]);
+            $count = $this->goods_model->getListCount($where);
+            $limit = $this->goods_model->getListLimit($params);
+            $list = $this->goods_model->getList($where, ['order_by_filed'=>'id', 'order_by_type'=>'desc'], '*',$limit);
+
+            return R('200','查询成功!',$list,$count);
+        }catch (\Exception $e){
+            return R('400','错误信息:'.$e->getMessage());
+        }
+    }
 }

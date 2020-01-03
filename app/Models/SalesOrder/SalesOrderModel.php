@@ -1,15 +1,13 @@
 <?php
-namespace App\Models\Poster;
+namespace App\Models\SalesOrder;
 
 use App\Models\BaseModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class PosterModel extends BaseModel
+class SalesOrderModel extends BaseModel
 {
-    protected $table ='m_poster';
-
-    protected $type_list = [1,2,3,4]; // 类型 1：首页轮播banner(大图)  2：首页小海报 3:精品推荐banner 4:logo
+    protected $table ='m_sales_order';
 
     public function has($filed = '', $val_all = '100')
     {
@@ -108,7 +106,7 @@ class PosterModel extends BaseModel
     }
 
     // 获取order_by
-     public function getListOrderBy($param)
+    public function getListOrderBy($param)
     {
         $order = [];
         //order_by

@@ -71,6 +71,12 @@ class GoodsModel extends BaseModel
         if (isset($param['id']) && !empty($param['id']) && $param['id'] >0){
             $where .= 'id ="' .intval($param['id']) . '" and ';
         }
+        if (isset($param['goods_advance_sale']) && !empty($param['goods_advance_sale'])){
+            $where .= 'goods_advance_sale ="' .intval($param['goods_advance_sale']). '" and ';
+        }
+        if (isset($param['goods_redeem']) && !empty($param['goods_redeem'])){
+            $where .= 'goods_redeem ="' .intval($param['goods_redeem']). '" and ';
+        }
         if (strlen($where) > 0) {
             $where = substr($where, 0, strlen($where) - 4);
         }
