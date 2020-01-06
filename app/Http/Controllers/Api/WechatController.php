@@ -30,6 +30,7 @@ class WechatController
         try{
             if(!empty($request->post())){
                 $user_info = $request->post();
+                Log::info('微信登录参数:'.json_encode($user_info));
             }else{
                 return R('300','参数解析异常');
             }
