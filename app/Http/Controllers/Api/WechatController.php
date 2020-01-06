@@ -177,10 +177,10 @@ class WechatController
             $res = [
                 'src' => 'http://img.muyaocn.com/logo-20200103.png'
             ];
-            $params = $request->post();
-            if(empty($params)){
-                return R('300','参数解析异常');
-            }
+            // $params = $request->post();
+            // if(empty($params)){
+            //     return R('300','参数解析异常');
+            // }
             $getPosterWhere = $this->poster_model->getListWhere(['status'=>1,'type'=>4]); // 4:logo
             $getPosterOrder = $this->poster_model->getListOrderBy(['order_by_field'=>'id','order_by_type'=>'DESC']);
             $getPosterInfo = $this->poster_model->getOne($getPosterWhere,$getPosterOrder);
