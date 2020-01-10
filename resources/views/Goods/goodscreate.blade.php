@@ -95,10 +95,7 @@
         <label class="layui-form-label">商品描述</label>
         <div class="layui-input-block">
             <div class="layui-card-body">
-                <button type="button" class="layui-btn layui-btn-danger" id="upload-describe">
-                    <i class="layui-icon"></i>上传图片
-                </button>
-                <div class="layui-inline layui-word-aux" id="describe_str">这里以限制 60KB 为例</div>
+                <textarea name="goods_discrebe" id="goods_discribe" style="display: none;"></textarea>
             </div>
         </div>
     </div>
@@ -112,7 +109,6 @@
 
     <div class="layui-form-item" style="bottom:5px; text-align: center">
         <div class="layui-input-block">
-            <input type="hidden" id="describe_img" name="upload_describe_file">
             <input type="hidden" id="master_img" name="upload_master_file">
             <button class="layui-btn" lay-submit lay-filter="sub">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -129,9 +125,15 @@
             , layedit = layui.layedit
             , upload = layui.upload;
 
+        layedit.set({
+            uploadImage: {
+                url: '/common/e_upload' //接口url
+                ,type: '' //默认post
+                ,data: {_token: '{{ csrf_token() }}'}
+            }
+        });
         //创建一个编辑器
-        var editIndex = layedit.build('LAY_demo_editor');
-
+        var index = layedit.build('goods_discribe');
         var $=layui.$;
 
         // 输入框自定义验证
@@ -145,7 +147,10 @@
 
         //监听提交
         form.on('submit(sub)', function (data) {
+            var edit_data = layedit.getContent(index);
+            data.field.describe_content = edit_data;
             console.log(data);
+            return false;
             $.ajax({
                 url:'/goods/goods_create',
                 type:'post',

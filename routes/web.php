@@ -13,6 +13,7 @@
 
 ## 公共接口
 Route::post('/common/upload','UploadController@upload')->name('common.upload');
+Route::post('/common/e_upload','UploadController@e_upload')->name('common.e_upload'); //富文本上传
 
 ## 登录接口
 Route::get('/','LoginController@index')->name('login');
