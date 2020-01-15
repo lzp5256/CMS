@@ -109,7 +109,7 @@ class WechatController
                 if(strtotime($get_user_info['start_time']) <= time() &&  strtotime($get_user_info['end_time']) >= time()) {
                     $response['token'] = $get_user_info['token'];
                     $response['userInfo'] = $user;
-                    $response['expires_time'] = $get_user_info['end_time'];
+                    $response['expires_time'] = strtotime($get_user_info['end_time']);
                     return R('200','获取成功',$response);
                 }
                 // 更新we_key,token,有效时间,用户信息
