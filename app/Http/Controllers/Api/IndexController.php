@@ -83,6 +83,7 @@ class IndexController
             $res[$k]['goods_price'] = bcdiv($v['goods_price'],100,2);
             $res[$k]['goods_vip_price'] = bcdiv($v['goods_vip_price'],100,2);
             $res[$k]['image_master'] = isset($image_list[$v['id']]) ? json_decode($image_list[$v['id']][1],true) : '';
+            $res[$k]['host_url'] = config('app.host_url').'/';
         }
         return $res;
     }
