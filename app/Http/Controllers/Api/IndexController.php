@@ -3,12 +3,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Poster\PosterModel;
 use App\Models\Goods\GoodsModel;
+use App\Models\System\SystemImageModel;
 
 class IndexController
 {
     public function __construct(){
         $this->poster_model = new PosterModel();
         $this->goods_model = new GoodsModel();
+        $this->system_image_model = new SystemImageModel();
     }
 
     /**
@@ -69,8 +71,19 @@ class IndexController
             'reveal_status'=>1,
             'goods_new_status' => 1,
         ]);
-        $res = $this->goods_model->getList($condition);
-        $res = empty($res) ? [] : $res;
+        $goods_list = $this->goods_model->getList($condition);
+        $res = empty($goods_list) ? [] : $goods_list;
+        foreach($res as $k => $v){
+            $goods_id_arr[] = $v['id']; 
+        }
+        $image_list = $this->getGoodsImages('1',$goods_id_arr);
+
+        foreach ($res as $k => $v) {
+            $res[$k]['goods_original_price'] = bcdiv($v['goods_original_price'],100,2);
+            $res[$k]['goods_price'] = bcdiv($v['goods_price'],100,2);
+            $res[$k]['goods_vip_price'] = bcdiv($v['goods_vip_price'],100,2);
+            $res[$k]['image_master'] = isset($image_list[$v['id']]) ? json_decode($image_list[$v['id']][1],true) : '';
+        }
         return $res;
     }
 
@@ -87,6 +100,17 @@ class IndexController
         $res = $this->goods_model->getList($condition);
         $res = empty($res) ? [] : $res;
         return $res;
+    }
+
+    protected function getGoodsImages($type,$ids = [])
+    {
+        // 获取图片信息
+        $system_image_where = $this->system_image_model->getListWhere(['id_arr'=>implode(',',$ids),'type'=>$type]);
+        $system_image_list =  $this->system_image_model->getList($system_image_where, ['order_by_filed'=>'id', 'order_by_type'=>'desc'], '*');
+        foreach ($system_image_list as $k => $v){
+            $image_list[$v['target_id']][$v['type']] = $v['src'];
+        }
+        return $image_list;
     }
 
 
