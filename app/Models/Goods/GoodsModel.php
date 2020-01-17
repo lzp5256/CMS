@@ -23,6 +23,14 @@ class GoodsModel extends BaseModel
             $ops = ['1' => '开启', '0' => '关闭'];
         }
 
+        if ($filed == 'reveal_status') {
+            $ops = ['1' => '上架', '0' => '下架'];
+        }
+
+        if ($filed == 'advance_sale') {
+            $ops = ['1' => '开启', '0' => '关闭'];
+        }
+
         if ($val_all == '100') {
             return ['100' => '全部'] + $ops;
         }
@@ -76,6 +84,15 @@ class GoodsModel extends BaseModel
         }
         if (isset($param['goods_redeem']) && !empty($param['goods_redeem'])){
             $where .= 'goods_redeem ="' .intval($param['goods_redeem']). '" and ';
+        }
+        if (isset($param['reveal_status']) && in_array($param['reveal_status'], [0, 1])) {
+            $where .= 'reveal_status ="' . intval($param['reveal_status']) . '" and ';
+        }
+        if (isset($param['goods_new_status']) && in_array($param['goods_new_status'], [0, 1])) {
+            $where .= 'goods_new_status ="' . intval($param['goods_new_status']) . '" and ';
+        }
+        if (isset($param['goods_advance_sale']) && in_array($param['goods_advance_sale'], [0, 1])) {
+            $where .= 'goods_advance_sale ="' . intval($param['goods_advance_sale']) . '" and ';
         }
         if (strlen($where) > 0) {
             $where = substr($where, 0, strlen($where) - 4);
@@ -157,5 +174,12 @@ class GoodsModel extends BaseModel
         return $field;
     }
 
+        /**
+     * 更新记录
+     */
+    public function updateById($id, $data)
+    {
+        return DB::table($this->table)->where('id','=',$id)->update($data);
+    }
 
 }

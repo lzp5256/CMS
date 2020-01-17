@@ -19,8 +19,12 @@
 
         <div class="layui-card-body">
             <div style="padding-bottom: 10px;">
-                <button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
                 <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+                <button class="layui-btn layuiadmin-btn-useradmin" data-type="shelves">上架</button>
+                <button class="layui-btn layuiadmin-btn-useradmin" data-type="unshelves">下架</button>
+                <!-- <button class="layui-btn layuiadmin-btn-useradmin" data-type="edit">编辑</button> -->
+                
+                <!-- <button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button> -->
             </div>
 
             <table id="goods_list" lay-filter="goods_list"></table>
@@ -59,7 +63,9 @@
                 {field: 'goods_stock',  title: '商品库存'},
                 {field: 'goods_sold',  title: '已售数量'},
                 {field: 'redeem_str',  title: '积分兑换'},
-                {field: 'status_str', title: '状态'},
+                {field: 'advance_sale_str', title: '预售状态'},
+                {field: 'status_str', title: '商品状态'},
+                {field: 'reveal_str', title: '上架状态'},
                 {field: 'create_time',  title: '创建时间'},
                 {field: 'update_time',  title: '更新时间'},
             ]],
@@ -71,7 +77,7 @@
         //事件
         var active = {
             batchdel: function(){
-                var checkStatus = table.checkStatus('menu_list')
+                var checkStatus = table.checkStatus('goods_list')
                     ,checkData = checkStatus.data; //得到选中的数据
 
                 if(checkData.length === 0){
@@ -92,7 +98,7 @@
                             success:function(data){
                                 if(data.code == 200){
                                     layer.msg('删除成功',{icon:1,time:2000},function () {
-                                        table.reload('menu_list');
+                                        table.reload('goods_list');
                                     });
                                 } else{
                                     layer.msg('删除失败',{icon:2,time:2000});
@@ -106,6 +112,7 @@
                     });
                 });
             }
+            // 新增
             ,add: function(){
                 layer.open({
                     type: 2
@@ -113,6 +120,88 @@
                     ,content: '/goods/goods_create'
                     ,maxmin: true
                     ,area: ['800px', '600px']
+                });
+            }
+            // 编辑
+            ,edit:function(){
+                var checkStatus = table.checkStatus('goods_list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+                id = checkData[0].id;
+                console.log(id);
+                layer.open({
+                    type: 2
+                    ,title: '编辑商品'
+                    ,content: '/goods/goods_edit_view/id/'+ id
+                    ,maxmin: true
+                    ,area: ['800px', '600px']
+                });
+            }
+            // 下架
+            ,unshelves:function(){
+                var checkStatus = table.checkStatus('goods_list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+
+                id = checkData[0].id;
+                layer.confirm('确定下架吗？', function(index) {
+                    $.ajax({
+                        url:'/goods/goods_unshelves',
+                        type:'post',
+                        data:{id:id,_token:'{{ csrf_token() }}'},
+                        dataType:"json",
+                        success:function(data){
+                            if(data.code == 200){
+                                layer.msg('下架成功[' + id + ']',{icon:1,time:2000},function () {
+                                    table.reload('goods_list');
+                                });
+                            } else{
+                                layer.msg('下架失败',{icon:2,time:2000});
+                            }
+                        },
+                        error:function(e){
+                            layer.msg('下架失败',{icon:2,time:2000});
+                        },
+                    });
+                    return false;
+                });
+            }
+            // 上架
+            ,shelves:function(){
+                var checkStatus = table.checkStatus('goods_list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+
+                id = checkData[0].id;
+                layer.confirm('确定上架吗？', function(index) {
+                    $.ajax({
+                        url:'/goods/goods_unshelves',
+                        type:'post',
+                        data:{id:id,_token:'{{ csrf_token() }}'},
+                        dataType:"json",
+                        success:function(data){
+                            if(data.code == 200){
+                                layer.msg('下架成功[' + id + ']',{icon:1,time:2000},function () {
+                                    table.reload('goods_list');
+                                });
+                            } else{
+                                layer.msg('下架失败',{icon:2,time:2000});
+                            }
+                        },
+                        error:function(e){
+                            layer.msg('下架失败',{icon:2,time:2000});
+                        },
+                    });
+                    return false;
                 });
             }
         };

@@ -48,10 +48,14 @@ class GoodsController
 
                 $status_ops = $this->goods_model->has('status',100);
                 $redeem_ops = $this->goods_model->has('goods_redeem',100);
+                $reveal_ops = $this->goods_model->has('reveal_status',100);
+                $advance_sale = $this->goods_model->has('advance_sale',100);
 
                 foreach ($list as $k => $v) {
                     $list[$k]['status_str'] =$status_ops[$v['status']];
                     $list[$k]['redeem_str'] =$redeem_ops[$v['goods_redeem']];
+                    $list[$k]['reveal_str'] =$reveal_ops[$v['reveal_status']];
+                    $list[$k]['advance_sale_str'] =$advance_sale[$v['goods_advance_sale']];
                 }
                 return R('0','',$list, $count);
             }
@@ -111,9 +115,10 @@ class GoodsController
                     return R('100023');
                 }
 
-                if(empty($params['upload_describe_file'])){
+                if(empty($params['describe_content'])){
                     return R('100024');
                 }
+                $this->params_data['goods_describe'] = (string)$params['describe_content'];
 
                 $params['upload_master_file'] = explode(',',$params['upload_master_file']);
                 foreach ($params['upload_master_file'] as $k => $v){
@@ -144,22 +149,19 @@ class GoodsController
                     return R('0','商品主图保存失败');
                 }
 
-                $create_system_describe_data = [
-                    'target_id' => $create_goods_res,
-                    'type' => 2,
+                // $create_system_describe_data = [
+                //     'target_id' => $create_goods_res,
+                //     'type' => 2,
+                //     'src'  => $params['upload_describe_file'],
+                //     'status' => 1,
+                // ];
+                // $create_goods_describe_system = $this->system_image_model->create($create_system_describe_data);
+                // if(!$create_goods_describe_system){
+                //     DB::rollBack();
+                //     return R('0','商品描述保存失败');
+                // }
 
-
-
-                    'src'  => $params['upload_describe_file'],
-                    'status' => 1,
-                ];
-                $create_goods_describe_system = $this->system_image_model->create($create_system_describe_data);
-                if(!$create_goods_describe_system){
-                    DB::rollBack();
-                    return R('0','商品描述保存失败');
-                }
-
-                if($create_goods_res && $create_goods_master_system && $create_goods_describe_system){
+                if($create_goods_res && $create_goods_master_system){
                     DB::commit();
                     return R('200');
                 }
@@ -323,4 +325,58 @@ class GoodsController
             return R('410',$e->getMessage());
         }
     }
+
+    /**
+     * 商品管理-商品编辑-暂时没用
+     * @param Request $request
+     * @return false|\Illuminate\Contracts\View\Factory|View|string
+     */
+    public function goods_edit_view(Request $request,$id)
+    {
+        try{
+            //$params = $request->all();
+            if(empty($id) || $id <= 0){
+                return R('100026');
+            }
+            // 查询商品主表
+            $goods_condition = $this->goods_model->getListWhere(['status'=>1,'id'=>(int)$id]);
+            $goods_info = $this->goods_model->getOne($goods_condition);
+            // 查询商品主图
+            $system_condition = $this->system_image_model->getListWhere(['type'=>1,'target_id'=>(int)$id,'status'=>1]);
+            $system_info = $this->system_image_model->getOne($system_condition);
+            $goods_info['master_pic'] = json_decode($system_info['src'],true);
+            return View('Goods.goodsedit',['goods_info'=>$goods_info]);
+        }catch (\Exception $e){
+            return R('410',$e->getMessage());
+        }
+    }
+
+    /**
+     * 商品管理-商品下架
+     * @param Request $request
+     * @return false|\Illuminate\Contracts\View\Factory|View|string
+     */
+    public function goods_unshelves(Request $request){
+        try{
+            $params = $request->all();
+            if(empty($params)){
+                return R('100026');
+            }
+            // 查询商品主表
+            $goods_condition = $this->goods_model->getListWhere(['status'=>1,'id'=>(int)$params['id']]);
+            $goods_info = $this->goods_model->getOne($goods_condition);
+            if(empty($goods_info)){
+                return R('100044');
+            }
+            $res = $this->goods_model->updateById($params['id'],['status' => 0]);
+            if(!$res){
+                return R('0');
+            }
+            return R('200');
+        }catch (\Exception $e){
+            return R('410',$e->getMessage());
+        }
+    }
+
+
 }

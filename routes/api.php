@@ -22,6 +22,7 @@ Route::get('test',function (){
 })->middleware('apiAuth');
 
 ## 公共接口
+Route::get('index','Api\IndexController@index');
 Route::post('wechat/auth','Api\WechatController@auth');
 Route::post('wechat/logo','Api\WechatController@get_logo');
 

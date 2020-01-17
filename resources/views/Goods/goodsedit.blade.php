@@ -14,35 +14,35 @@
     <div class="layui-form-item">
         <label class="layui-form-label">商品名称</label>
         <div class="layui-input-block">
-            <input type="text" name="goods_name" lay-verify="required" lay-reqtext="请输入商品名称" placeholder="请输入商品名称" autocomplete="off" class="layui-input">
+            <input type="text" name="goods_name" value="{{$goods_info['goods_name']}}" lay-verify="required" lay-reqtext="请输入商品名称" placeholder="请输入商品名称" autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">商品原价</label>
         <div class="layui-input-block">
-            <input type="text" name="goods_original_price" lay-verify="required|money|number" lay-reqtext="请输入商品名称" placeholder="请输入商品名称" autocomplete="off" class="layui-input">
+            <input type="text" name="goods_original_price" value="{{$goods_info['goods_original_price']}}" lay-verify="required|money|number" lay-reqtext="请输入商品名称" placeholder="请输入商品名称" autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">商品单价</label>
         <div class="layui-input-block">
-            <input type="text" name="goods_price" lay-verify="required|money|number" lay-reqtext="请输入商品单价" placeholder="请输入商品单价" autocomplete="off" class="layui-input">
+            <input type="text" name="goods_price" value="{{$goods_info['goods_original_price']}}" lay-verify="required|money|number" lay-reqtext="请输入商品单价" placeholder="请输入商品单价" autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">会员单价</label>
         <div class="layui-input-block">
-            <input type="text" name="goods_vip_price" lay-verify="required|money|number" lay-reqtext="请输入会员单价" placeholder="请输入会员单价" autocomplete="off" class="layui-input">
+            <input type="text" name="goods_vip_price" value="{{$goods_info['goods_original_price']}}" lay-verify="required|money|number" lay-reqtext="请输入会员单价" placeholder="请输入会员单价" autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">商品库存</label>
         <div class="layui-input-block">
-            <input type="text" name="goods_stock" lay-verify="required|number" lay-reqtext="请输入商品库存" placeholder="请输入商品库存" autocomplete="off" class="layui-input">
+            <input type="text" name="goods_stock" value="{{$goods_info['goods_original_price']}}" lay-verify="required|number" lay-reqtext="请输入商品库存" placeholder="请输入商品库存" autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -51,8 +51,8 @@
         <div class="layui-input-block">
             <select name="goods_redeem" lay-filter="redeem">
                 <option value="-1">请选择</option>
-                <option value="1">开启</option>
-                <option value="0" selected>关闭</option>
+                <option value="1" @if($goods_info['goods_redeem'] == 1) selected @endif >开启</option>
+                <option value="0" @if($goods_info['goods_redeem'] == 0) selected @endif >关闭</option>
             </select>
         </div>
     </div>
@@ -62,8 +62,8 @@
         <div class="layui-input-block">
             <select name="status" lay-filter="aihao">
                 <option value="-1">请选择</option>
-                <option value="1" selected>有效</option>
-                <option value="0">无效</option>
+                <option value="1" @if($goods_info['status'] == 1) selected @endif>有效</option>
+                <option value="0" @if($goods_info['status'] == 0) selected @endif>无效</option>
             </select>
         </div>
     </div>
@@ -89,13 +89,19 @@
                 </div>
             </div>
         </div>
+        <div class="layui-upload-list">
+            @foreach ($goods_info['master_pic'] as $k => $v)
+                <img class="layui-upload-img" id="demo1" src="http://img.muyaocn.com/{{$v}}">
+                <p id="demoText"></p>
+            @endforeach
+        </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">商品描述</label>
         <div class="layui-input-block">
             <div class="layui-card-body">
-                <textarea name="goods_discrebe" id="goods_discribe" style="display: none;"></textarea>
+                <textarea name="goods_discrebe" id="goods_discribe" style="display: none;">{{$goods_info['goods_describe']}}</textarea>
             </div>
         </div>
     </div>
@@ -103,7 +109,7 @@
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">类型描述</label>
         <div class="layui-input-block">
-            <textarea name="describe" placeholder="请输入内容" class="layui-textarea"></textarea>
+            <textarea name="describe" placeholder="请输入内容" class="layui-textarea">{{$goods_info['goods_describe']}}</textarea>
         </div>
     </div>
 

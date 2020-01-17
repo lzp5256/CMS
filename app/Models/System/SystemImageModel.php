@@ -41,6 +41,13 @@ class SystemImageModel extends BaseModel
         return $data;
     }
 
+    public function getOne($where = false , $order = false, $field = '*')
+    {
+        $db = DB::table($this->table);
+        $data = $this->findData($db,$where,$order,$field);
+        return $data;
+    }
+    
     public function getListCount($where = false)
     {
         $db = DB::table($this->table);
@@ -57,8 +64,8 @@ class SystemImageModel extends BaseModel
         if (isset($param['id']) && !empty($param['id'])) {
             $where .= 'id = "' . intval($param['id']) . '" and ';
         }
-        if (isset($param['goods_id']) && !empty($param['goods_id'])) {
-            $where .= 'goods_id = "' . intval($param['goods_id']) . '" and ';
+        if (isset($param['target_id']) && !empty($param['target_id'])) {
+            $where .= 'target_id = "' . intval($param['target_id']) . '" and ';
         }
         if (isset($param['system_id_arr']) && !empty($param['system_id_arr']) ) {
             $where .= 'id IN ('.$param['system_id_arr'].') and ';

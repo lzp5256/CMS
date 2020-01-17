@@ -46,6 +46,8 @@ Route::any('/goods/type_list','GoodsController@goods_type_list')->name('goods.ty
 Route::any('/goods/type_create','GoodsController@goods_type_create')->name('goods.typecreate');
 Route::any('/goods/brand_list','GoodsController@goods_brand_list')->name('goods.brandlist');
 Route::any('/goods/brand_create','GoodsController@goods_brand_create')->name('goods.brandcreate');
+Route::get('/goods/goods_edit_view/id/{id}','GoodsController@goods_edit_view')->name('goods.editview');
+Route::post('/goods/goods_unshelves','GoodsController@goods_unshelves')->name('goods.unshelves');
 
 ## 海报管理
 Route::any('/poster/poster_list','PosterController@poster_list')->name('poster.list');
