@@ -28,7 +28,7 @@ class IndexController
             'firstList' => $firstList,
             'salesInfo' => '',
             'benefit' => $benefit_res,
-            'logoUrl' => 'http://img.muyaocn.com/logo-20191230.png',
+            'logoUrl' => 'http://img.muyaocn.com/logo-20200103.png',
             'couponList' => [],
         ];
         return R('200','查询成功',$res);
